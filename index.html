@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星座运势 - 治愈轻奢风</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .serif {
+            font-family: 'Noto Serif SC', serif;
+        }
+        .dreamy-gradient {
+            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 25%, #e8eaf6 50%, #e0f7fa 75%, #fff3e0 100%);
+        }
+        .card-glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .zodiac-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        .fortune-star {
+            color: #f8b500;
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .pulse-soft {
+            animation: pulseSoft 3s ease-in-out infinite;
+        }
+        @keyframes pulseSoft {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fce4ec;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ce93d8 0%, #f48fb1 100%);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #ab47bc 0%, #ec407a 100%);
+        }
+        .zodiac-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .zodiac-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .tab-active {
+            background: linear-gradient(135deg, #ce93d8 0%, #f48fb1 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="dreamy-gradient min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 card-glass shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <h1 class="text-2xl font-bold serif text-purple-700">✨ 星座运势</h1>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#zodiacs" class="text-gray-600 hover:text-purple-600 transition-colors">十二星座</a>
+                    <a href="#today" class="text-gray-600 hover:text-purple-600 transition-colors">今日运势</a>
+                    <a href="#quotes" class="text-gray-600 hover:text-purple-600 transition-colors">星座语录</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主横幅 -->
+    <header class="pt-24 pb-16 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="float-animation inline-block mb-6">
+                <span class="text-7xl">🌟</span>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold serif text-purple-800 mb-4">探索你的星座奥秘</h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">每日运势、性格解析、配对分析，发现专属于你的宇宙密码</p>
+        </div>
+    </header>
+
+    <!-- 十二星座选择区 -->
+    <section id="zodiacs" class="py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-3xl font-bold serif text-center text-purple-800 mb-10">十二星座</h3>
+            <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('aries')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♈</div>
+                    <h4 class="font-semibold text-purple-800">白羊座</h4>
+                    <p class="text-sm text-gray-500">3.21-4.19</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('taurus')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♉</div>
+                    <h4 class="font-semibold text-purple-800">金牛座</h4>
+                    <p class="text-sm text-gray-500">4.20-5.20</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('gemini')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♊</div>
+                    <h4 class="font-semibold text-purple-800">双子座</h4>
+                    <p class="text-sm text-gray-500">5.21-6.21</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('cancer')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♋</div>
+                    <h4 class="font-semibold text-purple-800">巨蟹座</h4>
+                    <p class="text-sm text-gray-500">6.22-7.22</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('leo')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♌</div>
+                    <h4 class="font-semibold text-purple-800">狮子座</h4>
+                    <p class="text-sm text-gray-500">7.23-8.22</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('virgo')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♍</div>
+                    <h4 class="font-semibold text-purple-800">处女座</h4>
+                    <p class="text-sm text-gray-500">8.23-9.22</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('libra')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♎</div>
+                    <h4 class="font-semibold text-purple-800">天秤座</h4>
+                    <p class="text-sm text-gray-500">9.23-10.23</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('scorpio')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♏</div>
+                    <h4 class="font-semibold text-purple-800">天蝎座</h4>
+                    <p class="text-sm text-gray-500">10.24-11.22</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('sagittarius')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♐</div>
+                    <h4 class="font-semibold text-purple-800">射手座</h4>
+                    <p class="text-sm text-gray-500">11.23-12.21</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('capricorn')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♑</div>
+                    <h4 class="font-semibold text-purple-800">摩羯座</h4>
+                    <p class="text-sm text-gray-500">12.22-1.19</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('aquarius')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♒</div>
+                    <h4 class="font-semibold text-purple-800">水瓶座</h4>
+                    <p class="text-sm text-gray-500">1.20-2.18</p>
+                </div>
+                <div class="zodiac-card card-glass rounded-2xl p-4 text-center cursor-pointer" onclick="showZodiacDetail('pisces')">
+                    <div class="zodiac-icon mx-auto mb-2 text-4xl">♓</div>
+                    <h4 class="font-semibold text-purple-800">双鱼座</h4>
+                    <p class="text-sm text-gray-500">2.19-3.20</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 星座详情弹窗 -->
+    <div id="zodiacModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/30" onclick="closeZodiacModal()"></div>
+        <div class="card-glass rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-10">
+            <button onclick="closeZodiacModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            <div id="zodiacDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- 今日运势 -->
+    <section id="today" class="py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-3xl font-bold serif text-center text-purple-800 mb-10">今日运势</h3>
+            <div class="card-glass rounded-3xl p-8">
+                <div class="flex justify-center space-x-2 mb-8">
+                    <button class="tab-btn px-6 py-2 rounded-full font-medium transition-all tab-active" onclick="switchTab('today')">今日</button>
+                    <button class="tab-btn px-6 py-2 rounded-full font-medium transition-all bg-white/50" onclick="switchTab('week')">本周</button>
+                    <button class="tab-btn px-6 py-2 rounded-full font-medium transition-all bg-white/50" onclick="switchTab('month')">本月</button>
+                </div>
+                <div id="fortuneContent">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">💖</div>
+                            <h4 class="font-semibold text-purple-800 mb-2">爱情运势</h4>
+                            <div class="flex justify-center space-x-1 mb-2">
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="text-gray-300">★</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">今日桃花运极佳，单身者有望遇到心仪对象。</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">💰</div>
+                            <h4 class="font-semibold text-purple-800 mb-2">财运指数</h4>
+                            <div class="flex justify-center space-x-1 mb-2">
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="text-gray-300">★</span>
+                                <span class="text-gray-300">★</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">财运平稳，适合稳健投资，不宜冒险。</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">💼</div>
+                            <h4 class="font-semibold text-purple-800 mb-2">事业运势</h4>
+                            <div class="flex justify-center space-x-1 mb-2">
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">事业运旺盛，工作上会有突破性进展。</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🍀</div>
+                            <h4 class="font-semibold text-purple-800 mb-2">健康运势</h4>
+                            <div class="flex justify-center space-x-1 mb-2">
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="fortune-star">★</span>
+                                <span class="text-gray-300">★</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">身体状况良好，注意保持规律作息。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 配对分析 -->
+    <section id="compatibility" class="py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-3xl font-bold serif text-center text-purple-800 mb-10">配对分析</h3>
+            <div class="card-glass rounded-3xl p-8">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <label class="block font-semibold text-purple-800 mb-3">选择你的星座</label>
+                        <select id="zodiac1" class="w-full px-4 py-3 rounded-xl bg-white/70 border border-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                            <option value="aries">♈ 白羊座</option>
+                            <option value="taurus">♉ 金牛座</option>
+                            <option value="gemini">♊ 双子座</option>
+                            <option value="cancer">♋ 巨蟹座</option>
+                            <option value="leo">♌ 狮子座</option>
+                            <option value="virgo">♍ 处女座</option>
+                            <option value="libra">♎ 天秤座</option>
+                            <option value="scorpio">♏ 天蝎座</option>
+                            <option value="sagittarius">♐ 射手座</option>
+                            <option value="capricorn">♑ 摩羯座</option>
+                            <option value="aquarius">♒ 水瓶座</option>
+                            <option value="pisces">♓ 双鱼座</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-purple-800 mb-3">选择对方星座</label>
+                        <select id="zodiac2" class="w-full px-4 py-3 rounded-xl bg-white/70 border border-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                            <option value="aries">♈ 白羊座</option>
+                            <option value="taurus">♉ 金牛座</option>
+                            <option value="gemini">♊ 双子座</option>
+                            <option value="cancer">♋ 巨蟹座</option>
+                            <option value="leo">♌ 狮子座</option>
+                            <option value="virgo">♍ 处女座</option>
+                            <option value="libra">♎ 天秤座</option>
+                            <option value="scorpio">♏ 天蝎座</option>
+                            <option value="sagittarius">♐ 射手座</option>
+                            <option value="capricorn">♑ 摩羯座</option>
+                            <option value="aquarius">♒ 水瓶座</option>
+                            <option value="pisces">♓ 双鱼座</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <button onclick="checkCompatibility()" class="px-8 py-3 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-full font-semibold hover:opacity-90 transition-opacity shadow-lg">查看配对结果</button>
+                </div>
+                <div id="compatibilityResult" class="mt-8 hidden">
+                    <div class="text-center py-6">
+                        <div class="text-5xl mb-4">💝</div>
+                        <h4 class="text-2xl font-bold serif text-purple-800 mb-4" id="compatibilityTitle">天生一对</h4>
+                        <div class="flex justify-center space-x-1 mb-4">
+                            <span class="fortune-star text-2xl">★</span>
+                            <span class="fortune-star text-2xl">★</span>
+                            <span class="fortune-star text-2xl">★</span>
+                            <span class="fortune-star text-2xl">★</span>
+                            <span class="fortune-star text-2xl">★</span>
+                        </div>
+                        <p class="text-gray-600" id="compatibilityDesc">你们是完美的组合，彼此互补，能够创造美好的未来。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 星座语录 -->
+    <section id="quotes" class="py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-3xl font-bold serif text-center text-purple-800 mb-10">星座语录</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card-glass rounded-2xl p-6 zodiac-card">
+                    <div class="text-4xl mb-4">♈</div>
+                    <blockquote class="text-gray-700 italic mb-3">"勇敢不是不害怕，而是即使害怕也要前行。"</blockquote>
+                    <cite class="text-purple-600 font-medium">— 白羊座</cite>
+                </div>
+                <div class="card-glass rounded-2xl p-6 zodiac-card">
+                    <div class="text-4xl mb-4">♉</div>
+                    <blockquote class="text-gray-700 italic mb-3">"慢一点，稳一点，美好自然会到来。"</blockquote>
+                    <cite class="text-purple-600 font-medium">— 金牛座</cite>
+                </div>
+                <div class="card-glass rounded-2xl p-6 zodiac-card">
+                    <div class="text-4xl mb-4">♊</div>
+                    <blockquote class="text-gray-700 italic mb-3">"世界如此有趣，我要一一探索。"</blockquote>
+                    <cite class="text-purple-600 font-medium">— 双子座</cite>
+                </div>
+                <div class="card-glass rounded-2xl p-6 zodiac-card">
+                    <div class="text-4xl mb-4">♋</div>
+                    <blockquote class="text-gray-700 italic mb-3">"家是心的港湾，爱是最温暖的力量。"</blockquote>
+                    <cite class="text-purple-600 font-medium">— 巨蟹座</cite>
+                </div>
+                <div class="card-glass rounded-2xl p-6 zodiac-card">
+                    <div class="text-4xl mb-4">♌</div>
+                    <blockquote class="text-gray-700 italic mb-3">"自信是最美的装饰，阳光是最好的礼物。"</blockquote>
+                    <cite class="text-purple-600 font-medium">— 狮子座</cite>
+                </div>
+                <div class="card-glass rounded-2xl p-6 zodiac-card">
+                    <div class="text-4xl mb-4">♍</div>
+                    <blockquote class="text-gray-700 italic mb-3">"完美不是终点，而是不断追求的过程。"</blockquote>
+                    <cite class="text-purple-600 font-medium">— 处女座</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="py-8 px-4 mt-12">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-gray-500">✨ 愿星光永远照耀你 ✨</p>
+            <p class="text-sm text-gray-400 mt-2">© 2024 星座运势 | 治愈轻奢风</p>
+        </div>
+    </footer>
+
+    <script>
+        // 十二星座数据
+        const zodiacData = {
+            aries: {
+                name: '白羊座',
+                icon: '♈',
+                date: '3.21-4.19',
+                element: '火象星座',
+                luckyColor: '红色',
+                luckyNumber: '9',
+                personality: '热情勇敢、直爽坦率、行动力强、喜欢挑战、富有冒险精神。',
+                todayFortune: '今天你的能量满满，适合开展新计划，感情方面有惊喜。',
+                weekFortune: '本周事业运势上扬，有贵人相助，财务状况稳定。',
+                monthFortune: '本月是你大展宏图的好时机，把握机会创造佳绩。'
+            },
+            taurus: {
+                name: '金牛座',
+                icon: '♉',
+                date: '4.20-5.20',
+                element: '土象星座',
+                luckyColor: '绿色',
+                luckyNumber: '6',
+                personality: '稳重踏实、有耐心、喜欢舒适生活、重视物质享受、忠诚可靠。',
+                todayFortune: '今天财运不错，适合理财规划，感情平稳发展。',
+                weekFortune: '本周工作顺利，有机会获得额外收入，保持稳健。',
+                monthFortune: '本月适合投资，财运亨通，感情甜蜜。'
+            },
+            gemini: {
+                name: '双子座',
+                icon: '♊',
+                date: '5.21-6.21',
+                element: '风象星座',
+                luckyColor: '黄色',
+                luckyNumber: '5',
+                personality: '聪明机智、善于交际、好奇心强、多才多艺、喜欢变化。',
+                todayFortune: '今天社交运极佳，适合聚会交流，可能认识新朋友。',
+                weekFortune: '本周学习运旺盛，适合提升技能，信息获取顺利。',
+                monthFortune: '本月充满机遇，多与人交流，开拓视野。'
+            },
+            cancer: {
+                name: '巨蟹座',
+                icon: '♋',
+                date: '6.22-7.22',
+                element: '水象星座',
+                luckyColor: '银色',
+                luckyNumber: '2',
+                personality: '温柔体贴、情感丰富、重视家庭、有同情心、保护欲强。',
+                todayFortune: '今天适合陪伴家人，家庭事务顺利，感情温馨。',
+                weekFortune: '本周情绪稳定，适合处理家庭事务，财运上升。',
+                monthFortune: '本月家庭和谐，是增进亲情的好时机。'
+            },
+            leo: {
+                name: '狮子座',
+                icon: '♌',
+                date: '7.23-8.22',
+                element: '火象星座',
+                luckyColor: '金色',
+                luckyNumber: '1',
+                personality: '自信大方、有领导力、慷慨热情、喜欢被关注、富有创造力。',
+                todayFortune: '今天魅力四射，适合展现自我，有机会成为焦点。',
+                weekFortune: '本周事业运佳，有机会获得认可和赞赏。',
+                monthFortune: '本月是你发光发热的时期，把握机会展现才能。'
+            },
+            virgo: {
+                name: '处女座',
+                icon: '♍',
+                date: '8.23-9.22',
+                element: '土象星座',
+                luckyColor: '灰色',
+                luckyNumber: '5',
+                personality: '细致完美、认真负责、善于分析、谦虚谨慎、追求卓越。',
+                todayFortune: '今天适合处理细节工作，效率很高，健康运良好。',
+                weekFortune: '本周工作运极佳，细致的表现获得认可。',
+                monthFortune: '本月是完善自我的好时机，提升各方面能力。'
+            },
+            libra: {
+                name: '天秤座',
+                icon: '♎',
+                date: '9.23-10.23',
+                element: '风象星座',
+                luckyColor: '粉色',
+                luckyNumber: '6',
+                personality: '优雅公正、善于协调、追求和谐、审美出众、温和友善。',
+                todayFortune: '今天审美在线，适合购物打扮，感情运甜蜜。',
+                weekFortune: '本周人际关系和谐，适合合作谈判。',
+                monthFortune: '本月是建立人脉的好时机，社交活动丰富。'
+            },
+            scorpio: {
+                name: '天蝎座',
+                icon: '♏',
+                date: '10.24-11.22',
+                element: '水象星座',
+                luckyColor: '紫色',
+                luckyNumber: '8',
+                personality: '神秘执着、洞察力强、情感深刻、意志坚定、有魄力。',
+                todayFortune: '今天直觉敏锐，适合做重要决定，财运不错。',
+                weekFortune: '本周适合深入研究，有机会发现重要信息。',
+                monthFortune: '本月是蜕变成长的时期，迎接更好的自己。'
+            },
+            sagittarius: {
+                name: '射手座',
+                icon: '♐',
+                date: '11.23-12.21',
+                element: '火象星座',
+                luckyColor: '蓝色',
+                luckyNumber: '3',
+                personality: '乐观自由、热爱旅行、追求真理、直率坦诚、心胸开阔。',
+                todayFortune: '今天适合出门走走，可能有意外收获，心情愉悦。',
+                weekFortune: '本周学习运旺盛，适合规划旅行或学习新东西。',
+                monthFortune: '本月是探索新世界的好时机，保持好奇心。'
+            },
+            capricorn: {
+                name: '摩羯座',
+                icon: '♑',
+                date: '12.22-1.19',
+                element: '土象星座',
+                luckyColor: '棕色',
+                luckyNumber: '4',
+                personality: '踏实肯干、有野心、责任感强、意志坚定、追求成功。',
+                todayFortune: '今天工作效率高，适合处理重要事务，事业运佳。',
+                weekFortune: '本周事业稳步上升，付出获得回报。',
+                monthFortune: '本月是耕耘收获的时期，继续努力向目标迈进。'
+            },
+            aquarius: {
+                name: '水瓶座',
+                icon: '♒',
+                date: '1.20-2.18',
+                element: '风象星座',
+                luckyColor: '蓝色',
+                luckyNumber: '7',
+                personality: '独立创新、思维独特、人道主义、追求自由、智商高。',
+                todayFortune: '今天灵感迸发，适合创意工作，会有新奇想法。',
+                weekFortune: '本周人际关系活跃，适合参加社交活动。',
+                monthFortune: '本月是展现独特魅力的时期，做自己就好。'
+            },
+            pisces: {
+                name: '双鱼座',
+                icon: '♓',
+                date: '2.19-3.20',
+                element: '水象星座',
+                luckyColor: '海蓝色',
+                luckyNumber: '7',
+                personality: '浪漫梦幻、富有想象力、同情心强、艺术天赋、温柔敏感。',
+                todayFortune: '今天适合艺术创作，灵感丰富，感情浪漫。',
+                weekFortune: '本周桃花运旺盛，适合约会，感情甜蜜。',
+                monthFortune: '本月是梦幻美好的时期，跟随内心的指引。'
+            }
+        };
+
+        // 配对数据
+        const compatibilityData = {
+            perfect: ['你们是天作之合，彼此完美互补', '天生一对，默契十足', '灵魂伴侣，命中注定'],
+            good: ['你们的组合非常和谐，能够相互理解', '很般配的一对，感情甜蜜', '相处愉快，未来可期'],
+            normal: ['需要彼此磨合，相互包容', '有挑战但也有机遇', '需要更多沟通和理解'],
+            challenge: ['需要更多的耐心和理解', '虽有挑战但值得努力', '互补的组合需要磨合']
+        };
+
+        // 显示星座详情
+        function showZodiacDetail(zodiacKey) {
+            const zodiac = zodiacData[zodiacKey];
+            const modal = document.getElementById('zodiacModal');
+            const content = document.getElementById('zodiacDetailContent');
+            
+            content.innerHTML = `
+                <div class="text-center mb-6">
+                    <div class="text-7xl mb-4">${zodiac.icon}</div>
+                    <h3 class="text-3xl font-bold serif text-purple-800">${zodiac.name}</h3>
+                    <p class="text-gray-500">${zodiac.date}</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="text-center p-4 bg-white/50 rounded-xl">
+                        <div class="text-sm text-gray-500">元素</div>
+                        <div class="font-semibold text-purple-700">${zodiac.element}</div>
+                    </div>
+                    <div class="text-center p-4 bg-white/50 rounded-xl">
+                        <div class="text-sm text-gray-500">幸运色</div>
+                        <div class="font-semibold text-purple-700">${zodiac.luckyColor}</div>
+                    </div>
+                    <div class="text-center p-4 bg-white/50 rounded-xl">
+                        <div class="text-sm text-gray-500">幸运数字</div>
+                        <div class="font-semibold text-purple-700">${zodiac.luckyNumber}</div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h4 class="font-semibold text-purple-800 mb-2">💫 性格解析</h4>
+                    <p class="text-gray-600">${zodiac.personality}</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-4 bg-white/50 rounded-xl">
+                        <h4 class="font-semibold text-purple-800 mb-2">☀️ 今日运势</h4>
+                        <p class="text-gray-600">${zodiac.todayFortune}</p>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeZodiacModal() {
+            const modal = document.getElementById('zodiacModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // 切换运势标签
+        function switchTab(tab) {
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('bg-white/50');
+            });
+            event.target.classList.add('tab-active');
+            event.target.classList.remove('bg-white/50');
+        }
+
+        // 检查配对
+        function checkCompatibility() {
+            const zodiac1 = document.getElementById('zodiac1').value;
+            const zodiac2 = document.getElementById('zodiac2').value;
+            const resultDiv = document.getElementById('compatibilityResult');
+            const titleEl = document.getElementById('compatibilityTitle');
+            const descEl = document.getElementById('compatibilityDesc');
+            
+            const score = Math.floor(Math.random() * 100) + 1;
+            let category, stars;
+            
+            if (score >= 90) {
+                category = 'perfect';
+                stars = 5;
+                titleEl.textContent = '💖 天生一对';
+            } else if (score >= 70) {
+                category = 'good';
+                stars = 4;
+                titleEl.textContent = '💕 非常般配';
+            } else if (score >= 50) {
+                category = 'normal';
+                stars = 3;
+                titleEl.textContent = '💝 需要磨合';
+            } else {
+                category = 'challenge';
+                stars = 2;
+                titleEl.textContent = '💗 相互包容';
+            }
+            
+            const messages = compatibilityData[category];
+            descEl.textContent = messages[Math.floor(Math.random() * messages.length)];
+            
+            const starContainer = resultDiv.querySelector('.flex.justify-center');
+            starContainer.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('span');
+                star.className = i < stars ? 'fortune-star text-2xl' : 'text-gray-300 text-2xl';
+                star.textContent = '★';
+                starContainer.appendChild(star);
+            }
+            
+            resultDiv.classList.remove('hidden');
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // 键盘关闭弹窗
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeZodiacModal();
+            }
+        });
+    </script>
+</body>
+</html>
